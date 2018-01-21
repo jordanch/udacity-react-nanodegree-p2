@@ -37,7 +37,7 @@ const Post = props => {
     <div className={props.className}>
       <Card className={classes.card}>
         <CardHeader
-          title={<Link to={"/posts/1"}>{id}</Link>}
+          title={<Link to={`/post/${id}`}>{id}</Link>}
           subheader={Date.now()}
         />
         {props.type === "detail" && (
@@ -65,7 +65,17 @@ const Post = props => {
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(["simple", "detail"]).isRequired,
-  data: PropTypes.object
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    voteScore: PropTypes.number.isRequired,
+    deleted: PropTypes.bool.isRequired,
+    commentCount: PropTypes.number.isRequired
+  }).isRequired
 };
 
 export default withStyles(styles)(Post);

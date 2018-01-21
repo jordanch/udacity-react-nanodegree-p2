@@ -5,7 +5,7 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { createStore, compose } from "redux";
 import { Provider } from "react-redux";
-import reducer from "./reducers";
+import reducer from "./reducers/index.reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

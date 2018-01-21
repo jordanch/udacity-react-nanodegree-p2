@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { withStyles } from "material-ui/styles";
@@ -8,11 +7,11 @@ import Post from "./Post";
 const styles = theme => ({});
 
 const Posts = props => {
-  const { classes, posts } = props;
-
+  const { byId } = props.posts;
+  console.log(byId);
   return (
     <div className={props.className}>
-      {Object.values(posts.byId).map(post => (
+      {Object.values(byId).map(post => (
         <Post
           className="All-posts--post"
           type="simple"
@@ -25,23 +24,11 @@ const Posts = props => {
 };
 
 Posts.propTypes = {
-  classes: PropTypes.object.isRequired
+  posts: PropTypes.shape({
+    byId: PropTypes.object.isRequired,
+    allIds: PropTypes.array.isRequired,
+    previousActivePostId: PropTypes.string.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    posts: state.posts
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    dispatch1: () => {
-      dispatch();
-    }
-  };
-};
-
-export default withStyles(styles)(
-  connect(mapStateToProps, mapDispatchToProps)(Posts)
-);
+export default withStyles(styles)(Posts);

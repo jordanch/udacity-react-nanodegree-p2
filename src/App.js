@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { connect } from "react-redux";
 import logo from "./logo.svg";
 import "./App.css";
 import Post from "./components/Post";
 import Posts from "./components/Posts";
 import Comment from "./components/Comment";
+import PostDetail from "./containers/PostDetail.container";
 
 class App extends Component {
   render() {
+    console.log(this);
     return (
       <div className="App">
         <header className="App-header">
@@ -34,22 +37,11 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={() => <Posts className="All-posts" />}
+              render={() => {
+                return <Posts className="All-posts" posts={this.props.posts} />;
+              }}
             />
-
-            <Route
-              path="/posts/:postId"
-              render={() => (
-                <div>
-                  <Post className="All-posts--post" type="simple" />
-                  <p>Comments</p>
-                  <Comment />
-                  <Comment />
-                  <Comment />
-                  <Comment />
-                </div>
-              )}
-            />
+            <Route path="/post/:postId" render={() => <PostDetail />} />
           </div>
         </Router>
       </div>
@@ -57,4 +49,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    posts: state.posts
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    dispatch1: () => {
+      dispatch();
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
