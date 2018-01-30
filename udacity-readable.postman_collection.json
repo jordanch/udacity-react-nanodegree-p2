@@ -1,0 +1,403 @@
+{
+	"info": {
+		"name": "udacity-readable",
+		"_postman_id": "43b5c92b-353b-58b2-74c0-94e0465f1984",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "welcome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001"
+				},
+				"description": "Root request. Api docs."
+			},
+			"response": []
+		},
+		{
+			"name": "Get categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"categories"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get post from category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/{{currentCategoryId}}/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"{{currentCategoryId}}",
+						"posts"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"\",\n\t\"timestamp\": \"\",\n\t\"title\": \"\",\n\t\"body\": \"\",\n\t\"author\": \"\",\n\t\"category\": \"\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3001/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts"
+					]
+				},
+				"description": "id - UUID should be fine, but any unique id will work\ntimestamp - timestamp in whatever format you like, you can use Date.now() if you like\ntitle - String\nbody - String\nauthor - String\ncategory: Any of the categories listed in categories.js. Feel free to extend this list as you desire."
+			},
+			"response": []
+		},
+		{
+			"name": "Get 1 post details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/posts/{{currentPostId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts",
+						"{{currentPostId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update post (upvote or downvote)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"option\": \"upVote\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/posts/{{currentPostId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts",
+						"{{currentPostId}}"
+					]
+				},
+				"description": "\"option\": \"upVote | downVote\""
+			},
+			"response": []
+		},
+		{
+			"name": "Update post",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"\",\n\t\"body\": \"\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/posts/{{currentPostId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts",
+						"{{currentPostId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/posts/:{{currentPostId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts",
+						":{{currentPostId}}"
+					],
+					"variable": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				},
+				"description": "- Sets the deleted flag for a post to 'true'.\n- Sets the parentDeleted flag for all child comments to 'true'."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Post Comments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/posts/{{currentPostId}}/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"posts",
+						"{{currentPostId}}",
+						"comments"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Comment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"\",\n\t\"timestamp\": \"\",\n\t\"body\": \"\",\n\t\"author\": \"\",\n\t\"parentId\": \"\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"comments"
+					]
+				},
+				"description": "# USAGE:\nAdd a comment to a post\n\n# PARAMS:\n- id: Any unique ID. As with posts, UUID is probably the best here.\n- timestamp: timestamp. Get this however you want.\n- body: String\n- author: String\n- parentId: Should match a post id in the database."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Comment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/comments/{{currentCommentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"comments",
+						"{{currentCommentId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Vote Comment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"option\": \"upVote\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/comments/{{currentCommentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"comments",
+						"{{currentCommentId}}"
+					]
+				},
+				"description": "# USAGE:\nUsed for voting on a comment.\n# PARAMS:\noption - String: Either \"upVote\" or \"downVote\""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Comment",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"timestamp\": \"\",\n\t\"body\": \"\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/comments/:{{currentCommentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"comments",
+						":{{currentCommentId}}"
+					],
+					"variable": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				},
+				"description": "# USAGE:\nEdit the details of an existing comment\n# PARAMS:\n- timestamp: timestamp. Get this however you want.\n- body: String"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete  Comment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3001/comments/{{currentCommentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"comments",
+						"{{currentCommentId}}"
+					]
+				},
+				"description": "# USAGE:\nSets a comment's deleted flag to 'true'"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "abc123",
+				"type": "string"
+			}
+		]
+	}
+}
