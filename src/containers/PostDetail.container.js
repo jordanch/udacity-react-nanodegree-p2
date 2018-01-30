@@ -4,8 +4,9 @@ import { updatePostBody } from "../actions/posts.actions";
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    activePostId: state.posts.previousActivePostId,
-    postsById: state.posts.byId
+    activePostId: ownProps.match.params.postId,
+    posts: state.posts,
+    comments: state.comments
   };
 };
 

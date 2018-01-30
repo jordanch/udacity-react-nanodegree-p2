@@ -4,26 +4,27 @@ import Comment from "../components/Comment";
 import PropTypes from "prop-types";
 
 const PostDetail = props => {
-  // get the post object.
-  const post = props.postsById[props.activePostId];
+  const post = props.posts.byId[props.activePostId];
+  const thisPostComments = Object.keys(props.comments.byId)
+    .filter(commentId => post.commentIds.includes(commentId))
+    .map(commentId => props.comments.byId[commentId]);
 
-  // window.setTimeout(
-  //   () => props.updateBody({ body: "hello world", postId: post.id }),
-  //   5000
-  // );
-
+  // get this posts comments from store.
   return (
     <div>
       <Post className="All-posts--post" type="detail" data={post} />
       <p>Comments</p>
-      <Comment />
-      <Comment />
+      {thisPostComments.map(comment => (
+        <Comment data={comment} key={comment.id} />
+      ))}
     </div>
   );
 };
 
 PostDetail.propTypes = {
-  activePostId: PropTypes.string.isRequired
+  activePostId: PropTypes.string.isRequired,
+  posts: PropTypes.object.isRequired,
+  comments: PropTypes.object.isRequired
 };
 
 export default PostDetail;

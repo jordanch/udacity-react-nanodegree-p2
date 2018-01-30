@@ -26,8 +26,7 @@ const Posts = props => {
 Posts.propTypes = {
   posts: PropTypes.shape({
     byId: PropTypes.object.isRequired,
-    allIds: PropTypes.array.isRequired,
-    previousActivePostId: PropTypes.string.isRequired
+    allIds: PropTypes.array.isRequired
   }).isRequired
 };
 

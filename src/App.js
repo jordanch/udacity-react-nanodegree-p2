@@ -41,7 +41,10 @@ class App extends Component {
                 return <Posts className="All-posts" posts={this.props.posts} />;
               }}
             />
-            <Route path="/post/:postId" render={() => <PostDetail />} />
+            <Route
+              path="/post/:postId"
+              render={props => <PostDetail {...props} />}
+            />
           </div>
         </Router>
       </div>

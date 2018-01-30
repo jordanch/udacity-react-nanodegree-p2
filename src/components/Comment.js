@@ -35,20 +35,12 @@ const CommentCard = props => {
   return (
     <div className={props.className}>
       <Card className={classes.card}>
-        <CardHeader title="John Hunt" subheader="20/02/2016" />
+        <CardHeader
+          title={props.data.author}
+          subheader={props.data.timestamp}
+        />
         <CardContent>
-          <Typography component="p">
-            Lorem ipsum dolor amet cardigan wolf pork belly succulents.
-            Chartreuse lomo cronut af, vexillologist taxidermy kale chips four
-            loko. Cronut pork belly scenester thundercats sriracha succulents
-            air plant gluten-free freegan chartreuse cornhole chia. Hoodie poke
-            sustainable, godard messenger bag small batch migas scenester fanny
-            pack. Cronut letterpress crucifix flannel heirloom artisan forage
-            kogi hexagon kombucha tattooed selfies VHS thundercats. Man braid
-            raclette fingerstache post-ironic, lumbersexual adaptogen mixtape
-            hell of put a bird on it small batch hoodie vaporware. Plaid viral
-            humblebrag taxidermy.
-          </Typography>
+          <Typography component="p">{props.data.body}</Typography>
         </CardContent>
         <CardActions disableActionSpacing>
           <IconButton aria-label="Upvote">
@@ -64,7 +56,17 @@ const CommentCard = props => {
 };
 
 CommentCard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    parentId: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+    body: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    voteScore: PropTypes.number.isRequired,
+    deleted: PropTypes.bool.isRequired,
+    parentDeleted: PropTypes.bool.isRequired
+  }).isRequired
 };
 
 export default withStyles(styles)(CommentCard);

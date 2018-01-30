@@ -2,7 +2,35 @@
 
 import { combineReducers } from "redux";
 
-function food(state = {}, action) {
+// TODO: update post entity to include property for commentIds[1, 2, ...]
+
+const initialCommentsState = {
+  byId: {
+    "894tuq4ut84ut8v4t8wun89g": {
+      id: "894tuq4ut84ut8v4t8wun89g",
+      parentId: "8xf0y6ziyjabvozdd253nd",
+      timestamp: 1468166872634,
+      body: "Hi there! I am a COMMENT.",
+      author: "thingtwo",
+      voteScore: 6,
+      deleted: false,
+      parentDeleted: false
+    },
+    "8tu4bsun805n8un48ve89": {
+      id: "8tu4bsun805n8un48ve89",
+      parentId: "6ni6ok3ym7mf1p33lnez",
+      timestamp: 1469479767190,
+      body: "Comments. Are. Cool.",
+      author: "thingone",
+      voteScore: -5,
+      deleted: false,
+      parentDeleted: false
+    }
+  },
+  allIds: ["8tu4bsun805n8un48ve89", "894tuq4ut84ut8v4t8wun89g"]
+};
+
+function comments(state = initialCommentsState, action) {
   switch (action.type) {
     default:
       return state;
@@ -20,7 +48,8 @@ const initialPostsState = {
       category: "react",
       voteScore: 6,
       deleted: false,
-      commentCount: 2
+      commentCount: 2,
+      commentIds: []
     },
     "6ni6ok3ym7mf1p33lnez": {
       id: "6ni6ok3ym7mf1p33lnez",
@@ -31,41 +60,11 @@ const initialPostsState = {
       category: "redux",
       voteScore: -5,
       deleted: false,
-      commentCount: 0
+      commentCount: 0,
+      commentIds: ["8tu4bsun805n8un48ve89"]
     }
   },
-  allIds: ["post1", "post2"],
-  previousActivePostId: "8xf0y6ziyjabvozdd253nd"
-  //   comments: {
-  //     byId: {
-  //       comment1: {
-  //         id: "comment1",
-  //         author: "user2",
-  //         comment: "....."
-  //       },
-  //       comment2: {
-  //         id: "comment2",
-  //         author: "user3",
-  //         comment: "....."
-  //       },
-  //       comment3: {
-  //         id: "comment3",
-  //         author: "user3",
-  //         comment: "....."
-  //       },
-  //       comment4: {
-  //         id: "comment4",
-  //         author: "user1",
-  //         comment: "....."
-  //       },
-  //       comment5: {
-  //         id: "comment5",
-  //         author: "user3",
-  //         comment: "....."
-  //       }
-  //     },
-  //     allIds: ["comment1", "comment2", "comment3", "commment4", "comment5"]
-  //   }
+  allIds: ["post1", "post2"]
 };
 
 function posts(state = initialPostsState, action) {
@@ -94,6 +93,6 @@ function posts(state = initialPostsState, action) {
 }
 
 export default combineReducers({
-  food,
+  comments,
   posts
 });
