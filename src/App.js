@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import logo from "./logo.svg";
 import "./App.css";
 import Post from "./components/Post";
-import Posts from "./components/Posts";
+import Posts from "./containers/Posts.container";
 import Comment from "./components/Comment";
 import PostDetail from "./containers/PostDetail.container";
+import * as api from "./api/api";
 
 class App extends Component {
   render() {
-    console.log(this);
     return (
       <div className="App">
         <header className="App-header">
@@ -38,7 +38,7 @@ class App extends Component {
               exact
               path="/"
               render={() => {
-                return <Posts className="All-posts" posts={this.props.posts} />;
+                return <Posts />;
               }}
             />
             <Route

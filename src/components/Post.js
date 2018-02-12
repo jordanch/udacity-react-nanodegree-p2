@@ -31,14 +31,20 @@ const styles = theme => ({
 
 const Post = props => {
   const { classes, data } = props;
-  const { author, body, id } = data;
+  const { author, body, id, timestamp, title, commentCount, category } = data;
+  const subTitle = (
+    <div>
+      <p>{new Date(timestamp).toDateString()}</p>
+      <p>{category}</p>
+    </div>
+  );
 
   return (
     <div className={props.className}>
       <Card className={classes.card}>
         <CardHeader
-          title={<Link to={`/post/${id}`}>{id}</Link>}
-          subheader={Date.now()}
+          title={<Link to={`/post/${id}`}>{title}</Link>}
+          subheader={subTitle}
         />
         {props.type === "detail" && (
           <CardContent>
@@ -53,7 +59,7 @@ const Post = props => {
             <ThumbDown color="error" />
           </IconButton>
           <IconButton aria-label="Number of comments">
-            2
+            {commentCount}
             <Comment />
           </IconButton>
         </CardActions>
