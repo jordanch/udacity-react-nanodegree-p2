@@ -38,14 +38,6 @@ class App extends Component {
                   </Link>
                 </Toolbar>
               </AppBar>
-              {/* <ul>
-                <li>
-                  <Link to="/">All</Link>
-                </li>
-                <li>
-                  <Link to="/create">Create</Link>
-                </li>
-              </ul> */}
             </nav>
             <Route
               exact

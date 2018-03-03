@@ -1,3 +1,4 @@
+//#region
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -16,6 +17,10 @@ import FavoriteIcon from "material-ui-icons/Favorite";
 import Comment from "material-ui-icons/Comment";
 import ThumbUp from "material-ui-icons/ThumbUp";
 import ThumbDown from "material-ui-icons/ThumbDown";
+import Fav from "material-ui-icons/Favorite";
+import { updatePostVote } from "../api/api";
+import { votePost } from "../actions/posts.actions";
+import { connect } from "react-redux";
 
 const styles = theme => ({
   card: {
@@ -30,8 +35,17 @@ const styles = theme => ({
 });
 
 const Post = props => {
-  const { classes, data } = props;
-  const { author, body, id, timestamp, title, commentCount, category } = data;
+  const { classes, data, makePostVote } = props;
+  const {
+    author,
+    body,
+    id,
+    timestamp,
+    title,
+    commentCount,
+    category,
+    voteScore
+  } = data;
   const subTitle = (
     <div>
       <p>{new Date(timestamp).toDateString()}</p>
@@ -52,11 +66,21 @@ const Post = props => {
           </CardContent>
         )}
         <CardActions disableActionSpacing>
-          <IconButton aria-label="Upvote">
+          <IconButton
+            aria-label="Upvote"
+            onClick={makePostVote.bind(null, id, "up")}
+          >
             <ThumbUp color="action" />
           </IconButton>
-          <IconButton aria-label="Downvote">
+          <IconButton
+            aria-label="Downvote"
+            onClick={makePostVote.bind(null, id, "down")}
+          >
             <ThumbDown color="error" />
+          </IconButton>
+          <IconButton aria-label="Favourite score">
+            <Fav color="error" />
+            <span>{voteScore}</span>
           </IconButton>
           <IconButton aria-label="Number of comments">
             {commentCount}
@@ -84,4 +108,14 @@ Post.propTypes = {
   }).isRequired
 };
 
-export default withStyles(styles)(Post);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    makePostVote: (id, action) => {
+      dispatch(votePost(id, action));
+    }
+  };
+};
+
+export default withStyles(styles)(
+  connect(null, mapDispatchToProps, null)(Post)
+);

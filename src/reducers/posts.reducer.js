@@ -57,12 +57,16 @@ export default function posts(state = initialPostsState, action) {
 
     case RECEIVE_POST_DETAIL:
       const { post } = action;
+      const previousComments =
+        state.byId[post.id] && state.byId[post.id].commentIds
+          ? state.byId[post.id].commentIds
+          : [];
       // const orchestratedPost = orchestratePostDetailResponse(action.post);
       return Object.assign({}, state, {
         byId: {
           ...state.byId,
           [post.id]: Object.assign({}, post, {
-            commentIds: []
+            commentIds: previousComments
           })
         },
         // TODO: turn this into a Set to ensure unique ids.
@@ -106,11 +110,3 @@ function orchestratePostResponse(posts) {
     return acc;
   }, {});
 }
-// function orchestratePostDetailResponse(post) {
-//   return {
-//     byId: {
-//       [post.id]: post
-//     },
-//     allIds: [post.id]
-//   };
-// }

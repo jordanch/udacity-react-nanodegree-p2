@@ -1,4 +1,4 @@
-import { fetchPosts, fetchPost } from "../api/api";
+import { fetchPosts, fetchPost, updateVote } from "../api/api";
 
 export const UPDATE_POST_BODY = "UPDATE_POST_BODY";
 export const updatePostBody = payload => ({
@@ -35,6 +35,35 @@ export const receiveAllPosts = posts => ({
   type: RECEIVE_ALL_POSTS,
   posts
 });
+
+// todo: not yet implemented - could this be used to only update vote icons and vote numbers?
+// for dev speed, when a vote happens, update the store with the new post data.
+export const POST_ACTION_REQUEST = "POST_ACTION_REQUEST";
+export const makePostAction = action => ({
+  type: POST_ACTION_REQUEST,
+  action
+});
+
+// todo: not yet implemented - could this be used to only update vote icons and vote numbers?
+export const POST_ACTION_RESPONSE = "POST_ACTION_RESPONSE";
+export const receivePostAction = action => ({
+  type: POST_ACTION_REQUEST,
+  action
+});
+
+export function votePost(id, action) {
+  return async function(dispatch) {
+    //TODO: not yet implemented.
+    // dispatch(makePostAction())
+    try {
+      const post = await updateVote("posts", id, action);
+      dispatch(receivePostDetail(post));
+    } catch (e) {
+      // meh, if the api interaction fails, do nothing except log.
+      console.error(`Could not vote on post ${id}, error: \n ${e}`);
+    }
+  };
+}
 
 export function fetchAllPosts() {
   return function(dispatch) {

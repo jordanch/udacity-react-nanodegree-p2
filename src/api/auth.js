@@ -1,8 +1,11 @@
-export function createHeaders(options) {
+// UUID authenticates user with api.
+// TODO: user accounts and sessions and user data?
+const uuidv1 = require("uuid/v1");
+
+export function getBaseHeaders(options) {
   const token = store.token;
   if (!token) {
-    //TODO: create unique uuid.
-    store.token = "UUID";
+    store.token = uuidv1();
   }
   return Object.assign(
     {
@@ -12,6 +15,6 @@ export function createHeaders(options) {
   );
 }
 
-export const store = {
+const store = {
   token: null
 };
