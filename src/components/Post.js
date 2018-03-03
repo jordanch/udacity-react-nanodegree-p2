@@ -1,4 +1,4 @@
-//#region
+//#region imps
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ import Fav from "material-ui-icons/Favorite";
 import { updatePostVote } from "../api/api";
 import { votePost } from "../actions/posts.actions";
 import { connect } from "react-redux";
+//#endregion
 
 const styles = theme => ({
   card: {
@@ -76,7 +77,7 @@ const Post = props => {
             aria-label="Downvote"
             onClick={makePostVote.bind(null, id, "down")}
           >
-            <ThumbDown color="error" />
+            <ThumbDown color="action" />
           </IconButton>
           <IconButton aria-label="Favourite score">
             <Fav color="error" />
@@ -108,6 +109,7 @@ Post.propTypes = {
   }).isRequired
 };
 
+//#region exports and store connect
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     makePostVote: (id, action) => {
@@ -119,3 +121,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default withStyles(styles)(
   connect(null, mapDispatchToProps, null)(Post)
 );
+//#endregion

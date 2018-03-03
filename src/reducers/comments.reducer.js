@@ -1,7 +1,8 @@
 import {
   fetchPostComments,
   REQUEST_POST_COMMENTS,
-  RECEIVE_POST_COMMENTS
+  RECEIVE_POST_COMMENTS,
+  RECEIVE_COMMENT
 } from "../actions/comments.actions";
 
 const initialPostsState = {
@@ -27,6 +28,15 @@ export default function comments(state = initialPostsState, action) {
         { isFetchingComments: false },
         orchestratePostCommentsResponse(action.comments)
       );
+
+    case RECEIVE_COMMENT:
+      // merge specific comment object into state, does it update only the specific comment dom>?
+      return Object.assign({}, state, {
+        byId: {
+          ...state.byId,
+          [action.comment.id]: action.comment
+        }
+      });
 
     default:
       return state;

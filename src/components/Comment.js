@@ -1,3 +1,4 @@
+//#region
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -16,6 +17,10 @@ import FavoriteIcon from "material-ui-icons/Favorite";
 import Comment from "material-ui-icons/Comment";
 import ThumbUp from "material-ui-icons/ThumbUp";
 import ThumbDown from "material-ui-icons/ThumbDown";
+import { voteComment } from "../actions/comments.actions";
+import { connect } from "react-redux";
+import Fav from "material-ui-icons/Favorite";
+//#endregion
 
 const styles = theme => ({
   card: {
@@ -30,24 +35,33 @@ const styles = theme => ({
 });
 
 const CommentCard = props => {
-  const { classes } = props;
+  const { classes, makeCommentVote } = props;
+  const { author, timestamp, body, id, voteScore } = props.data;
 
   return (
     <div className={props.className}>
       <Card className={classes.card}>
-        <CardHeader
-          title={props.data.author}
-          subheader={props.data.timestamp}
-        />
+        <CardHeader title={author} subheader={timestamp} />
         <CardContent>
-          <Typography component="p">{props.data.body}</Typography>
+          <Typography component="p">{body}</Typography>
         </CardContent>
+        {/* todo: extract voting actions into separate component. */}
         <CardActions disableActionSpacing>
-          <IconButton aria-label="Upvote">
+          <IconButton
+            aria-label="Upvote"
+            onClick={makeCommentVote.bind(null, id, "up")}
+          >
             <ThumbUp color="action" />
           </IconButton>
-          <IconButton aria-label="Downvote">
-            <ThumbDown color="error" />
+          <IconButton
+            aria-label="Downvote"
+            onClick={makeCommentVote.bind(null, id, "down")}
+          >
+            <ThumbDown color="action" />
+          </IconButton>
+          <IconButton aria-label="Favourite score">
+            <Fav color="error" />
+            <span>{voteScore}</span>
           </IconButton>
         </CardActions>
       </Card>
@@ -69,4 +83,14 @@ CommentCard.propTypes = {
   }).isRequired
 };
 
-export default withStyles(styles)(CommentCard);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    makeCommentVote: (id, action) => {
+      dispatch(voteComment(id, action));
+    }
+  };
+};
+
+export default withStyles(styles)(
+  connect(null, mapDispatchToProps, null)(CommentCard)
+);

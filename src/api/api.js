@@ -55,7 +55,6 @@ export function updateVote(entityType, id, vote) {
         "Content-Type": "application/json"
       })
     ),
-
     body: JSON.stringify(voteAction)
   }).then(
     response => response.json(),
