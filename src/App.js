@@ -8,6 +8,18 @@ import Posts from "./containers/Posts.container";
 import Comment from "./components/Comment";
 import PostDetail from "./containers/PostDetail.container";
 import * as api from "./api/api";
+import AppBar from "material-ui/AppBar";
+import Toolbar from "material-ui/Toolbar";
+import Typography from "material-ui/Typography";
+import { withStyles } from "material-ui/styles";
+import PropTypes from "prop-types";
+import { AppButton } from "./components/buttons";
+
+const styles = {
+  root: {
+    flexGrow: 1
+  }
+};
 
 class App extends Component {
   render() {
@@ -16,14 +28,24 @@ class App extends Component {
         <Router>
           <div>
             <nav>
-              <ul>
+              <AppBar position="static" color="default">
+                <Toolbar>
+                  <Link to="/">
+                    <AppButton text="All" colour="primary" />
+                  </Link>
+                  <Link to="/create">
+                    <AppButton text="Create" colour="secondary" />
+                  </Link>
+                </Toolbar>
+              </AppBar>
+              {/* <ul>
                 <li>
                   <Link to="/">All</Link>
                 </li>
                 <li>
                   <Link to="/create">Create</Link>
                 </li>
-              </ul>
+              </ul> */}
             </nav>
             <Route
               exact
@@ -57,4 +79,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+App.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(App)
+);
