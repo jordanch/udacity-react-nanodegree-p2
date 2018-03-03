@@ -1,4 +1,4 @@
-import { fetchPosts } from "../api/api";
+import { fetchPosts, fetchPost } from "../api/api";
 
 export const UPDATE_POST_BODY = "UPDATE_POST_BODY";
 export const updatePostBody = payload => ({
@@ -14,8 +14,14 @@ export const selectPost = post => ({
 });
 
 export const REQUEST_POST_DETAIL = "REQUEST_POST_DETAIL";
-export const requestPostDetail = post => ({
+export const requestPostDetail = postId => ({
   type: REQUEST_POST_DETAIL,
+  postId
+});
+
+export const RECEIVE_POST_DETAIL = "RECEIVE_POST_DETAIL";
+export const receivePostDetail = post => ({
+  type: RECEIVE_POST_DETAIL,
   post
 });
 
@@ -36,10 +42,27 @@ export function fetchAllPosts() {
     dispatch(requestAllPosts());
     // at this point, connected components will re-render with spinners if appropriate.
     // now we can request posts from api.
-    return fetchPosts().then(r => {
-      if (r.error) {
-      }
-      dispatch(receiveAllPosts(r));
-    });
+    return fetchPosts()
+      .then(r => {
+        dispatch(receiveAllPosts(r));
+      })
+      .catch(e => {
+        // the request was unsuccessful for whatever reason.
+        // TODO: possibly retry or go to home?
+      });
+  };
+}
+
+export function fetchPostDetail(postId) {
+  return function(dispatch) {
+    dispatch(requestPostDetail(postId));
+    return fetchPost(postId)
+      .then(post => {
+        dispatch(receivePostDetail(post));
+        return post;
+      })
+      .catch(e => {
+        // TODO: handle catcvh.
+      });
   };
 }

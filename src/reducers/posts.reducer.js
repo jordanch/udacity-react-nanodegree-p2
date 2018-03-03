@@ -1,4 +1,8 @@
-import { REQUEST_ALL_POSTS, RECEIVE_ALL_POSTS } from "../actions/posts.actions";
+import {
+  REQUEST_ALL_POSTS,
+  RECEIVE_ALL_POSTS,
+  RECEIVE_POST_DETAIL
+} from "../actions/posts.actions";
 // const initialPostsState = {
 //   byId: {
 //     "8xf0y6ziyjabvozdd253nd": {
@@ -42,6 +46,7 @@ export default function posts(state = initialPostsState, action) {
       return Object.assign({}, state, {
         isFetchingPosts: true
       });
+
     case RECEIVE_ALL_POSTS:
       return Object.assign(
         {},
@@ -49,6 +54,21 @@ export default function posts(state = initialPostsState, action) {
         { isFetchingPosts: false },
         orchestratePostResponse(action.posts)
       );
+
+    case RECEIVE_POST_DETAIL:
+      const { post } = action;
+      // const orchestratedPost = orchestratePostDetailResponse(action.post);
+      return Object.assign({}, state, {
+        byId: {
+          ...state.byId,
+          [post.id]: Object.assign({}, post, {
+            commentIds: []
+          })
+        },
+        // TODO: turn this into a Set to ensure unique ids.
+        allIds: [...state.allIds, post.id]
+      });
+
     case "UPDATE_POST_BODY": {
       const { body, id } = action;
       const currentPostState = state.byId[id];
@@ -64,6 +84,7 @@ export default function posts(state = initialPostsState, action) {
       };
       break;
     }
+
     default:
       return state;
   }
@@ -77,9 +98,19 @@ function orchestratePostResponse(posts) {
     if (!acc.allIds) {
       acc.allIds = [];
     }
-    acc.byId[curr.id] = curr;
+    acc.byId[curr.id] = Object.assign({}, curr, {
+      commentIds: []
+    });
     acc.allIds.push(curr.id);
 
     return acc;
   }, {});
 }
+// function orchestratePostDetailResponse(post) {
+//   return {
+//     byId: {
+//       [post.id]: post
+//     },
+//     allIds: [post.id]
+//   };
+// }

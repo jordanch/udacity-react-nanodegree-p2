@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { safe } from "../util/guards";
 
 const PostDetail = props => {
-  if (!props.posts.allIds || props.posts.allIds.length === 0) {
-    return null;
-  }
+  // if (!props.posts.allIds || props.posts.allIds.length === 0) {
+  //   return null;
+  // }
   const post = props.posts.byId[props.activePostId];
   // the post may not yet have comments.
   const thisPostsComments = safe(

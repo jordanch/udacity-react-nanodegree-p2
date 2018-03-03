@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import PostDetail from "../components/PostDetail";
-import { updatePostBody, fetchAllPosts } from "../actions/posts.actions";
+import { fetchPostDetail } from "../actions/posts.actions";
+import { fetchPostComments } from "../actions/comments.actions";
 import React, { Component } from "react";
 
 const mapStateToProps = (state, ownProps) => {
@@ -13,12 +14,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    updateBody: userInput => {
-      dispatch(updatePostBody(userInput));
+    fetchDetails: id => {
+      return dispatch(fetchPostDetail(id));
     },
-    fetchAllPosts: () => {
-      dispatch(fetchAllPosts());
-    }
+    fetchComments: id => dispatch(fetchPostComments(id))
   };
 };
 
@@ -26,15 +25,21 @@ class PostDetailContainer extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    const {} = this.props;
-    if (!posts.allIds || posts.allIds.length === 0) {
-      // get post.
-      // TODO: for now, fetch all posts.
-      fetchAllPosts();
+  async componentDidMount() {
+    const { posts, activePostId, fetchDetails, fetchComments } = this.props;
+    const post = posts.byId[activePostId];
+    if (!post) {
+      const postResponse = await fetchDetails(activePostId);
+      const commentsResponse = await fetchComments(activePostId);
+    } else if (post && post.commentIds && post.commentIds.length === 0) {
+      const commentsResponse = await fetchComments(activePostId);
     }
   }
   render() {
+    const { posts, activePostId } = this.props;
+    if (!posts.byId[activePostId]) {
+      return null;
+    }
     return <PostDetail {...this.props} />;
   }
 }

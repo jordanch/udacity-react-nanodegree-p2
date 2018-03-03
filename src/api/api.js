@@ -9,9 +9,37 @@ export function fetchPosts() {
     // parse into json before returning.
     response => response.json(),
     error => {
-      // what does .debug do differently from .info?
-      console.debug(error);
-      return error;
+      // i.e. Error instance { message: string, stack: string}
+      console.error(error);
+      throw new Error(error);
+    }
+  );
+}
+
+export function fetchPost(id) {
+  return fetch(`${getHost()}/posts/${id}`, {
+    method: "GET",
+    headers: new Headers(createHeaders())
+  }).then(
+    // parse into json before returning.
+    response => response.json(),
+    error => {
+      // i.e. Error instance { message: string, stack: string}
+      console.error(error);
+      throw new Error(error);
+    }
+  );
+}
+
+export function fetchPostComments(postId) {
+  return fetch(`${getHost()}/posts/${postId}/comments`, {
+    method: "GET",
+    headers: new Headers(createHeaders())
+  }).then(
+    response => response.json(),
+    error => {
+      console.error(error);
+      throw new Error(error);
     }
   );
 }
