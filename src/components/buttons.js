@@ -10,9 +10,14 @@ const styles = theme => ({
 });
 
 function GenericButton(props) {
-  const { classes, text, colour } = props;
+  const { classes, text, colour, onClick } = props;
   return (
-    <Button variant="raised" color={colour} className={classes.button}>
+    <Button
+      variant="raised"
+      color={colour}
+      className={classes.button}
+      onClick={onClick}
+    >
       {text}
     </Button>
   );

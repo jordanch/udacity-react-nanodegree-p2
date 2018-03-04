@@ -1,4 +1,4 @@
-import { fetchPosts, fetchPost, updateVote } from "../api/api";
+import { fetchPosts, fetchPost, updateVote, addPost } from "../api/api";
 
 export const UPDATE_POST_BODY = "UPDATE_POST_BODY";
 export const updatePostBody = payload => ({
@@ -34,6 +34,12 @@ export const RECEIVE_ALL_POSTS = "RECEIVE_ALL_POSTS";
 export const receiveAllPosts = posts => ({
   type: RECEIVE_ALL_POSTS,
   posts
+});
+
+export const ADD_POST_SUCCESSFUL = "ADD_POST_SUCCESSFUL";
+export const addPostSuccessful = post => ({
+  type: ADD_POST_SUCCESSFUL,
+  post
 });
 
 // todo: not yet implemented - could this be used to only update vote icons and vote numbers?
@@ -93,5 +99,14 @@ export function fetchPostDetail(postId) {
       .catch(e => {
         // TODO: handle catcvh.
       });
+  };
+}
+
+export function createPost(post) {
+  return function(dispatch) {
+    return addPost(post).then(post => {
+      dispatch(addPostSuccessful(post));
+      return post;
+    });
   };
 }

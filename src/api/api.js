@@ -77,3 +77,19 @@ export function getCategories() {
     }
   );
 }
+
+export function addPost(post) {
+  return fetch(`${getHost()}/posts`, {
+    method: "POST",
+    headers: new Headers(
+      getBaseHeaders({ "Content-Type": "application/json" })
+    ),
+    body: JSON.stringify(post)
+  }).then(
+    response => response.json(),
+    error => {
+      console.error(error);
+      throw new Error(error);
+    }
+  );
+}

@@ -15,6 +15,6 @@ export function getBaseHeaders(options) {
   );
 }
 
-const store = {
+export const store = {
   token: null
 };

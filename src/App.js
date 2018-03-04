@@ -11,7 +11,7 @@ import "./App.css";
 import Post from "./components/Post";
 import Posts from "./containers/Posts.container";
 import Comment from "./components/Comment";
-import CreateEntity from "./components/Create";
+import CreateEntity from "./containers/Create.container";
 import PostDetail from "./containers/PostDetail.container";
 import * as api from "./api/api";
 import AppBar from "material-ui/AppBar";

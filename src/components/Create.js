@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
-import Input, { InputLabel } from "material-ui/Input";
 import TextField from "material-ui/TextField";
-import { FormControl, FormHelperText } from "material-ui/Form";
-import { AppButton } from "../components/buttons";
+import { store } from "../api/auth";
+import SelectCategory from "./SelectCategory";
+import CreatePostForm from "./forms/CreatePost.component";
 
 const styles = theme => ({
   container: {
@@ -37,7 +37,9 @@ class Create extends Component {
     this.state = {
       post: {},
       comment: {},
-      currentType: props.match.params.type === "post" ? "post" : "comment"
+      currentType: props.match.params.type === "post" ? "post" : "comment",
+      error: "",
+      success: null
     };
   }
   handleChange = event => {
@@ -52,12 +54,54 @@ class Create extends Component {
       })
     );
   };
+  handleCatChange = event => {
+    const { textContent } = event.currentTarget;
+    const createType = this.state.currentType;
+    this.setState(
+      Object.assign({}, this.state, {
+        [createType]: {
+          ...this.state[createType],
+          selectedCategory: textContent
+        }
+      })
+    );
+  };
+
+  handleSubmit = () => {
+    const { user } = store.token;
+    if (this.state.currentType === "post") {
+      const { postTitle, postBody, selectedCategory } = this.state.post;
+      if (!postTitle && !postBody && !selectedCategory) {
+        this.setState({ error: "Complete all inputs" });
+        return null;
+      }
+      this.props.addPost({
+        id: "qjjqk",
+        title: postTitle,
+        body: postBody,
+        category: selectedCategory,
+        timestamp: new Date(),
+        author: "me"
+      });
+    } else if (this.state.currentType === "comment") {
+      // if () {
+      // }
+    }
+
+    // add author - user
+    // add timestampo
+    // add id
+  };
+
   render() {
     if (this.state.currentType === "post") {
-      return CreatePost({
+      return CreatePostForm({
         props: this.props,
+        error: this.state.error,
         state: this.state.post,
-        onChange: this.handleChange
+        handleChange: this.handleChange,
+        handleCatChange: this.handleCatChange,
+        handleSubmit: this.handleSubmit.bind(this)
       });
     } else {
       return null;
@@ -66,35 +110,9 @@ class Create extends Component {
 }
 
 Create.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
+  addPost: PropTypes.func.isRequired
 };
-
-function CreatePost({ props, state, handleChange }) {
-  const { classes } = props;
-  const { title, body, currentCategory, categories } = state;
-  return (
-    <div className={classes.container}>
-      <div className={classes.content}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="name-simple">Title</InputLabel>
-          <Input id="postTitle" value={title} onChange={handleChange} />
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <TextField
-            label={"Post text"}
-            id="postTitle"
-            fullWidth={true}
-            value={body}
-            onChange={handleChange}
-            multiline={true}
-            rows={10}
-            type="text"
-          />
-        </FormControl>
-        <AppButton text="Create Post" colour="secondary" />
-      </div>
-    </div>
-  );
-}
 
 export default withStyles(styles)(Create);
