@@ -41,7 +41,10 @@ const CommentCard = props => {
   return (
     <div className={props.className}>
       <Card className={classes.card}>
-        <CardHeader title={author} subheader={timestamp} />
+        <CardHeader
+          title={author}
+          subheader={new Date(timestamp).toDateString()}
+        />
         <CardContent>
           <Typography component="p">{body}</Typography>
         </CardContent>

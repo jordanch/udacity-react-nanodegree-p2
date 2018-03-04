@@ -64,3 +64,16 @@ export function updateVote(entityType, id, vote) {
     }
   );
 }
+
+export function getCategories() {
+  return fetch(`${getHost()}/categories`, {
+    method: "GET",
+    headers: new Headers(getBaseHeaders())
+  }).then(
+    response => response.json().then(jso => jso.categories),
+    error => {
+      console.error(error);
+      throw new Error(error);
+    }
+  );
+}

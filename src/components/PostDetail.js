@@ -3,6 +3,7 @@ import Post from "../components/Post";
 import Comment from "../components/Comment";
 import PropTypes from "prop-types";
 import { safe } from "../util/guards";
+import { AppButton } from "../components/buttons";
 
 const PostDetail = props => {
   const post = props.posts.byId[props.activePostId];
@@ -13,6 +14,7 @@ const PostDetail = props => {
       <Post className="All-posts--post" type="detail" data={post} />
       {/* get this post's comments from store. */}
       <p>Comments</p>
+      <AppButton text="+" colour="secondary" />
       {thisPostsComments.length === 0 && (
         <span>No comments have been added.</span>
       )}
