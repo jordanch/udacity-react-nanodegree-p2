@@ -16,7 +16,7 @@ const PostDetail = props => {
       <p>Comments</p>
       <AppButton text="+" colour="secondary" />
       {thisPostsComments.length === 0 && (
-        <span>No comments have been added.</span>
+        <div>No comments have been added.</div>
       )}
       {thisPostsComments.map(comment => (
         <Comment data={comment} key={comment.id} />

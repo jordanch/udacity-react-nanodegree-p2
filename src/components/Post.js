@@ -85,7 +85,9 @@ const Post = props => {
           </IconButton>
           <IconButton aria-label="Number of comments">
             {commentCount}
-            <Comment />
+            <Link to={`/post/${id}`}>
+              <Comment />
+            </Link>
           </IconButton>
         </CardActions>
       </Card>
