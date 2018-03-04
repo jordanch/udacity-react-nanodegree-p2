@@ -24,15 +24,6 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .All-posts {
   display: flex;
   flex-direction: column;
@@ -40,4 +31,8 @@
 
 .All-posts--post {
   margin: 10px;
+}
+
+nav .active {
+  background-color: red !important;
 }

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Link
+} from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "./logo.svg";
 import "./App.css";
@@ -41,28 +46,36 @@ class App extends Component {
                   <Link to="/create/post">
                     <AppButton text="Create Post" colour="secondary" />
                   </Link>
-                  <Link to="/">
+                  <NavLink exact to="/">
                     <AppButton text="All" colour="primary" />
-                  </Link>
+                  </NavLink>
                   {safe(() => {
                     return Object.values(this.props.categories.byName).map(
                       category => (
-                        <AppButton
+                        <NavLink
                           key={category.name}
-                          text={category.name}
-                          colour="primary"
-                        />
+                          to={`/categories/${category.path}`}
+                        >
+                          <AppButton text={category.name} colour="primary" />
+                        </NavLink>
                       )
                     );
                   }, null)}
                 </Toolbar>
               </AppBar>
             </nav>
+            {/* HOME ROUTE */}
             <Route
               exact
               path="/"
               render={() => {
                 return <Posts />;
+              }}
+            />
+            <Route
+              path="/categories/:categoryName"
+              render={props => {
+                return <Posts {...props} />;
               }}
             />
             <Route

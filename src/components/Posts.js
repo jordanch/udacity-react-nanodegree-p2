@@ -13,7 +13,10 @@ class Posts extends Component {
 
   componentDidMount() {
     // make request for all posts from api.
-    this.props.fetchPosts();
+    const { posts } = this.props;
+    if (posts.allIds.length === 0 && posts.isFetchingPosts === false) {
+      this.props.fetchPosts();
+    }
   }
 
   render() {
@@ -22,9 +25,17 @@ class Posts extends Component {
     if (isFetchingPosts) {
       return <IsLoading />;
     } else {
+      const categoryName =
+        this.props.match && this.props.match.params
+          ? this.props.match.params.categoryName
+          : null;
+
+      const matchedPosts = Object.values(byId).filter(
+        post => (categoryName ? post.category === categoryName : true)
+      );
       return (
         <div className="All-posts">
-          {Object.values(byId).map(post => (
+          {matchedPosts.map(post => (
             <Post
               className="All-posts--post"
               type="simple"
@@ -32,6 +43,7 @@ class Posts extends Component {
               key={post.id}
             />
           ))}
+          {matchedPosts.length === 0 && "No posts in category!"}
         </div>
       );
     }

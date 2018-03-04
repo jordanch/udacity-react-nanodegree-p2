@@ -4,7 +4,8 @@ import { fetchAllPosts } from "../actions/posts.actions";
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    posts: state.posts
+    posts: state.posts,
+    match: ownProps.match
   };
 };
 
