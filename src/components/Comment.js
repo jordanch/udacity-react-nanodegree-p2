@@ -48,7 +48,6 @@ const CommentCard = props => {
         <CardContent>
           <Typography component="p">{body}</Typography>
         </CardContent>
-        {/* todo: extract voting actions into separate component. */}
         <CardActions disableActionSpacing>
           <IconButton
             aria-label="Upvote"

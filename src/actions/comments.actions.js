@@ -1,4 +1,10 @@
-import { fetchPostComments as getPostComments, updateVote } from "../api/api";
+import {
+  fetchPostComments as getPostComments,
+  updateVote,
+  addComment
+} from "../api/api";
+
+import { addCommentToPost } from "../actions/posts.actions";
 
 export const REQUEST_POST_COMMENTS = "REQUEST_POST_COMMENTS";
 export const requestPostComments = payload => ({
@@ -34,8 +40,6 @@ export function fetchPostComments(id) {
 
 export function voteComment(id, action) {
   return async function(dispatch) {
-    //todo: not yet implemented.
-    // dispatch(makeCommentAction())
     try {
       const comment = await updateVote("comments", id, action);
       dispatch(receiveComment(comment));
@@ -43,5 +47,21 @@ export function voteComment(id, action) {
       // meh, if the api interaction fails, do nothing except log.
       console.error(`Could not vote on comment ${id}, error: \n ${e}`);
     }
+  };
+}
+
+export function createComment(comment) {
+  return function(dispatch) {
+    return addComment(comment)
+      .then(comment => {
+        dispatch(receiveComment(comment));
+        dispatch(
+          addCommentToPost({ commentId: comment.id, postId: comment.parentId })
+        );
+      })
+      .catch(e => {
+        console.log(e);
+        throw e;
+      });
   };
 }

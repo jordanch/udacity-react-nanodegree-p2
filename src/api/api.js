@@ -85,11 +85,38 @@ export function addPost(post) {
       getBaseHeaders({ "Content-Type": "application/json" })
     ),
     body: JSON.stringify(post)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Server rerror - /posts POST");
+      } else {
+        return response.json();
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+}
+
+export function addComment(comment) {
+  return fetch(`${getHost()}/comments`, {
+    method: "POST",
+    headers: new Headers(
+      getBaseHeaders({ "Content-Type": "application/json" })
+    ),
+    body: JSON.stringify(comment)
   }).then(
-    response => response.json(),
+    response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw Error("Server error - /comment POST");
+      }
+    },
     error => {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   );
 }

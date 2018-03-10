@@ -9,12 +9,20 @@ const PostDetail = props => {
   const post = props.posts.byId[props.activePostId];
   const thisPostsComments = post.commentIds.map(id => props.comments.byId[id]);
 
+  const navigateToCreateComment = (history, postId) => {
+    // TODO: how the fuck does this not persist???
+    history.push("/create/comment", { postId });
+  };
+
   return (
     <div>
       <Post className="All-posts--post" type="detail" data={post} />
-      {/* get this post's comments from store. */}
       <p>Comments</p>
-      <AppButton text="+" colour="secondary" />
+      <AppButton
+        text="+"
+        colour="secondary"
+        onClick={navigateToCreateComment.bind(null, props.history, post.id)}
+      />
       {thisPostsComments.length === 0 && (
         <div>No comments have been added.</div>
       )}

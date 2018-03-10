@@ -1,3 +1,4 @@
+// TODO: clean up errors.
 import { fetchPosts, fetchPost, updateVote, addPost } from "../api/api";
 
 export const UPDATE_POST_BODY = "UPDATE_POST_BODY";
@@ -57,6 +58,13 @@ export const receivePostAction = action => ({
   action
 });
 
+export const ADD_COMMENT_TO_POST = "ADD_COMMENT_TO_POST";
+export const addCommentToPost = payload => ({
+  type: ADD_COMMENT_TO_POST,
+  commentId: payload.commentId,
+  postId: payload.postId
+});
+
 export function votePost(id, action) {
   return async function(dispatch) {
     //TODO: not yet implemented.
@@ -104,9 +112,13 @@ export function fetchPostDetail(postId) {
 
 export function createPost(post) {
   return function(dispatch) {
-    return addPost(post).then(post => {
-      dispatch(addPostSuccessful(post));
-      return post;
-    });
+    return addPost(post)
+      .then(post => {
+        dispatch(addPostSuccessful(post));
+        return post;
+      })
+      .catch(error => {
+        throw error;
+      });
   };
 }

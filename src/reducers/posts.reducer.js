@@ -2,7 +2,8 @@ import {
   REQUEST_ALL_POSTS,
   RECEIVE_ALL_POSTS,
   RECEIVE_POST_DETAIL,
-  ADD_POST_SUCCESSFUL
+  ADD_POST_SUCCESSFUL,
+  ADD_COMMENT_TO_POST
 } from "../actions/posts.actions";
 
 const initialPostsState = {
@@ -52,6 +53,20 @@ export default function posts(state = initialPostsState, action) {
           [newPost.id]: Object.assign(newPost, { commentIds: [] })
         },
         allIds: [...state.allIds, newPost.id]
+      });
+
+    case ADD_COMMENT_TO_POST:
+      const { commentId, postId } = action;
+      const targetPost = state.byId[postId];
+
+      return Object.assign({}, state, {
+        byId: {
+          ...state.byId,
+          [targetPost.id]: Object.assign(targetPost, {
+            commentIds: [...targetPost.commentIds, commentId],
+            commentCount: targetPost.commentCount + 1
+          })
+        }
       });
 
     case "UPDATE_POST_BODY": {

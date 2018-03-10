@@ -5,6 +5,8 @@ import TextField from "material-ui/TextField";
 import { store } from "../api/auth";
 import SelectCategory from "./SelectCategory";
 import CreatePostForm from "./forms/CreatePost.component";
+import CreateCommentForm from "./forms/CreateComment.component";
+import { safe } from "../util/guards";
 const uuidv1 = require("uuid/v1");
 
 const styles = theme => ({
@@ -34,7 +36,8 @@ const styles = theme => ({
 
 class Create extends Component {
   constructor(props) {
-    super();
+    super(props);
+
     this.state = {
       post: {},
       comment: {},
@@ -43,6 +46,7 @@ class Create extends Component {
       success: null
     };
   }
+
   handleChange = event => {
     const { id: inputName, value } = event.target;
     const createType = this.state.currentType;
@@ -52,10 +56,11 @@ class Create extends Component {
           ...this.state[createType],
           [inputName]: value
         },
-        ...this.resetErrorsAndSuccesses()
+        ...this.resetErrorsAndSuccess()
       })
     );
   };
+
   handleCatChange = event => {
     const { textContent } = event.currentTarget;
     const createType = this.state.currentType;
@@ -65,7 +70,7 @@ class Create extends Component {
           ...this.state[createType],
           selectedCategory: textContent
         },
-        ...this.resetErrorsAndSuccesses()
+        ...this.resetErrorsAndSuccess()
       })
     );
   };
@@ -92,14 +97,32 @@ class Create extends Component {
             success: `Successfully added post ID: ${post.id}`,
             post: {}
           })
-        );
+        )
+        .catch(error => {
+          console.log(error);
+          this.setState({ error: `API error: ${error}` });
+        });
     } else if (this.state.currentType === "comment") {
-      // if () {
-      // }
+      const { commentBody } = this.state.comment;
+      const { postId } = this.props.location.state;
+      if (!commentBody) {
+        this.setState({ error: "Complete all inputs" });
+        return null;
+      }
+      this.props
+        .addComment({
+          id: uuidv1(),
+          body: commentBody,
+          timestamp: Date.now(),
+          author: "user",
+          parentId: this.props.location.state.postId
+        })
+        .then(comment => this.props.history.push(`/post/${postId}`))
+        .catch(error => this.setState({ error: `API error: ${error}` }));
     }
   };
 
-  resetErrorsAndSuccesses() {
+  resetErrorsAndSuccess() {
     return {
       error: "",
       success: null
@@ -117,8 +140,20 @@ class Create extends Component {
         handleCatChange: this.handleCatChange,
         handleSubmit: this.handleSubmit
       });
-    } else {
-      return null;
+    } else if (this.state.currentType === "comment") {
+      if (safe(() => this.props.location.state.postId, false)) {
+        return CreateCommentForm({
+          props: this.props,
+          error: this.state.error,
+          state: this.state.comment,
+          success: this.state.success,
+          handleChange: this.handleChange,
+          handleSubmit: this.handleSubmit
+        });
+      } else {
+        this.props.history.push("/");
+        return null;
+      }
     }
   }
 }
