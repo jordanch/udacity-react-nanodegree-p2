@@ -12,7 +12,9 @@ export default function CreatePost({
   success,
   handleChange,
   handleCatChange,
-  handleSubmit
+  handleSubmit,
+  handleEdit,
+  type
 }) {
   const { classes, categories } = props;
   const { postTitle, postBody, selectedCategory } = state;
@@ -39,22 +41,27 @@ export default function CreatePost({
             type="text"
           />
         </FormControl>
-        Choose category{" "}
-        <div className={classes.formControl}>
-          <SelectCategory
-            categories={categories.allNames}
-            onSelect={handleCatChange}
-          />
-        </div>
-        <div className={classes.formControl}>
-          Selected category: {selectedCategory} {!selectedCategory && "none"}
-        </div>
+        {type === "create" && (
+          <div>
+            Choose category{" "}
+            <div className={classes.formControl}>
+              <SelectCategory
+                categories={categories.allNames}
+                onSelect={handleCatChange}
+              />
+            </div>
+            <div className={classes.formControl}>
+              Selected category: {selectedCategory}{" "}
+              {!selectedCategory && "none"}
+            </div>
+          </div>
+        )}
         <div>{error && `Error: ${error}`}</div>
         <div className={classes.formControl}>
           <AppButton
-            text="Create Post"
+            text={type === "create" ? "Create Post" : "Update Post"}
             colour="secondary"
-            onClick={handleSubmit}
+            onClick={type === "edit" ? handleEdit : handleSubmit}
           />
         </div>
         <div className={classes.formControl}>{success && success}</div>

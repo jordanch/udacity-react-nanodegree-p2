@@ -38,12 +38,25 @@ class Create extends Component {
   constructor(props) {
     super(props);
 
+    this.type = props.match.url.includes("/edit") ? "edit" : "create";
+
     this.state = {
-      post: {},
+      post:
+        this.type === "edit"
+          ? this.orchestratePostEditData(props.location.state.post)
+          : {},
       comment: {},
       currentType: props.match.params.type === "post" ? "post" : "comment",
       error: "",
       success: null
+    };
+  }
+
+  orchestratePostEditData(post) {
+    return {
+      postTitle: post.title,
+      postBody: post.body,
+      postId: post.id
     };
   }
 
@@ -122,6 +135,45 @@ class Create extends Component {
     }
   };
 
+  handleEditSubmit = () => {
+    const { user } = store.token;
+    if (this.state.currentType === "post") {
+      const { postTitle, postBody, postId } = this.state.post;
+      if (!postTitle || !postBody) {
+        this.setState({ error: "Complete all inputs" });
+        return null;
+      }
+      this.props
+        .updatePost({
+          id: postId,
+          title: postTitle,
+          body: postBody
+        })
+        .then(post => this.props.history.push(`/post/${post.id}`))
+        .catch(error => {
+          console.log(error);
+          this.setState({ error: `API error: ${error}` });
+        });
+    } else if (this.state.currentType === "comment") {
+      const { commentBody } = this.state.comment;
+      const { postId } = this.props.location.state;
+      if (!commentBody) {
+        this.setState({ error: "Complete all inputs" });
+        return null;
+      }
+      this.props
+        .addComment({
+          id: uuidv1(),
+          body: commentBody,
+          timestamp: Date.now(),
+          author: "user",
+          parentId: this.props.location.state.postId
+        })
+        .then(comment => this.props.history.push(`/post/${postId}`))
+        .catch(error => this.setState({ error: `API error: ${error}` }));
+    }
+  };
+
   resetErrorsAndSuccess() {
     return {
       error: "",
@@ -138,7 +190,9 @@ class Create extends Component {
         success: this.state.success,
         handleChange: this.handleChange,
         handleCatChange: this.handleCatChange,
-        handleSubmit: this.handleSubmit
+        handleSubmit: this.handleSubmit,
+        handleEdit: this.handleEditSubmit,
+        type: this.type
       });
     } else if (this.state.currentType === "comment") {
       if (safe(() => this.props.location.state.postId, false)) {

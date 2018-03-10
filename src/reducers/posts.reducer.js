@@ -3,7 +3,8 @@ import {
   RECEIVE_ALL_POSTS,
   RECEIVE_POST_DETAIL,
   ADD_POST_SUCCESSFUL,
-  ADD_COMMENT_TO_POST
+  ADD_COMMENT_TO_POST,
+  UPDATE_POST_SUCCESSFUL
 } from "../actions/posts.actions";
 
 const initialPostsState = {
@@ -66,6 +67,18 @@ export default function posts(state = initialPostsState, action) {
             commentIds: [...targetPost.commentIds, commentId],
             commentCount: targetPost.commentCount + 1
           })
+        }
+      });
+
+    case UPDATE_POST_SUCCESSFUL:
+      const currentPost = state.byId[action.post.id];
+      return Object.assign({}, state, {
+        byId: {
+          ...state.byId,
+          [action.post.id]: Object.assign(
+            {},
+            { ...currentPost, ...action.post }
+          )
         }
       });
 

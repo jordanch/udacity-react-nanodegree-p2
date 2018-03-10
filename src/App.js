@@ -86,6 +86,10 @@ class App extends Component {
               path="/create/:type"
               render={props => <CreateEntity {...props} />}
             />
+            <Route
+              path="/edit/:type"
+              render={props => <CreateEntity {...props} />}
+            />
           </div>
         </Router>
       </div>

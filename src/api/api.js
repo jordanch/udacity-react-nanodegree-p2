@@ -99,6 +99,27 @@ export function addPost(post) {
     });
 }
 
+export function updatePost(post) {
+  return fetch(`${getHost()}/posts/${post.id}`, {
+    method: "PUT",
+    headers: new Headers(
+      getBaseHeaders({ "Content-Type": "application/json" })
+    ),
+    body: JSON.stringify(post)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Server rerror - /posts PUT");
+      } else {
+        return response.json();
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+}
+
 export function addComment(comment) {
   return fetch(`${getHost()}/comments`, {
     method: "POST",

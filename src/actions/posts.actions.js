@@ -1,5 +1,11 @@
 // TODO: clean up errors.
-import { fetchPosts, fetchPost, updateVote, addPost } from "../api/api";
+import {
+  fetchPosts,
+  fetchPost,
+  updateVote,
+  addPost,
+  updatePost as putPost
+} from "../api/api";
 
 export const UPDATE_POST_BODY = "UPDATE_POST_BODY";
 export const updatePostBody = payload => ({
@@ -40,6 +46,12 @@ export const receiveAllPosts = posts => ({
 export const ADD_POST_SUCCESSFUL = "ADD_POST_SUCCESSFUL";
 export const addPostSuccessful = post => ({
   type: ADD_POST_SUCCESSFUL,
+  post
+});
+
+export const UPDATE_POST_SUCCESSFUL = "UPDATE_POST_SUCCESSFUL";
+export const updatePostSuccessful = post => ({
+  type: UPDATE_POST_SUCCESSFUL,
   post
 });
 
@@ -115,6 +127,19 @@ export function createPost(post) {
     return addPost(post)
       .then(post => {
         dispatch(addPostSuccessful(post));
+        return post;
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+}
+
+export function updatePost(post) {
+  return function(dispatch) {
+    return putPost(post)
+      .then(post => {
+        dispatch(updatePostSuccessful(post));
         return post;
       })
       .catch(error => {
