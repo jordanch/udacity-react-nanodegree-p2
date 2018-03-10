@@ -14,7 +14,7 @@ class Posts extends Component {
   componentDidMount() {
     // make request for all posts from api.
     const { posts } = this.props;
-    if (posts.allIds.length === 0 && posts.isFetchingPosts === false) {
+    if (posts.hasFecthedAllPosts === false) {
       this.props.fetchPosts();
     }
   }

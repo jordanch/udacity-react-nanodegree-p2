@@ -8,7 +8,8 @@ import {
 const initialPostsState = {
   byId: {},
   allIds: [],
-  isFetchingPosts: false
+  isFetchingPosts: false,
+  hasFecthedAllPosts: false
 };
 
 export default function posts(state = initialPostsState, action) {
@@ -23,7 +24,7 @@ export default function posts(state = initialPostsState, action) {
       return Object.assign(
         {},
         state,
-        { isFetchingPosts: false },
+        { isFetchingPosts: false, hasFecthedAllPosts: true },
         orchestratePostResponse(action.posts)
       );
 
