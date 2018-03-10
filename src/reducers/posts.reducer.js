@@ -1,7 +1,8 @@
 import {
   REQUEST_ALL_POSTS,
   RECEIVE_ALL_POSTS,
-  RECEIVE_POST_DETAIL
+  RECEIVE_POST_DETAIL,
+  ADD_POST_SUCCESSFUL
 } from "../actions/posts.actions";
 
 const initialPostsState = {
@@ -39,8 +40,17 @@ export default function posts(state = initialPostsState, action) {
             commentIds: previousComments
           })
         },
-        // TODO: turn this into a Set to ensure unique ids.
         allIds: [...state.allIds, post.id]
+      });
+
+    case ADD_POST_SUCCESSFUL:
+      const { post: newPost } = action;
+      return Object.assign({}, state, {
+        byId: {
+          ...state.byId,
+          [newPost.id]: Object.assign(newPost, { commentIds: [] })
+        },
+        allIds: [...state.allIds, newPost.id]
       });
 
     case "UPDATE_POST_BODY": {

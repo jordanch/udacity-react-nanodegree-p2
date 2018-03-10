@@ -5,6 +5,7 @@ import TextField from "material-ui/TextField";
 import { store } from "../api/auth";
 import SelectCategory from "./SelectCategory";
 import CreatePostForm from "./forms/CreatePost.component";
+const uuidv1 = require("uuid/v1");
 
 const styles = theme => ({
   container: {
@@ -50,7 +51,8 @@ class Create extends Component {
         [createType]: {
           ...this.state[createType],
           [inputName]: value
-        }
+        },
+        ...this.resetErrorsAndSuccesses()
       })
     );
   };
@@ -62,7 +64,8 @@ class Create extends Component {
         [createType]: {
           ...this.state[createType],
           selectedCategory: textContent
-        }
+        },
+        ...this.resetErrorsAndSuccesses()
       })
     );
   };
@@ -71,27 +74,37 @@ class Create extends Component {
     const { user } = store.token;
     if (this.state.currentType === "post") {
       const { postTitle, postBody, selectedCategory } = this.state.post;
-      if (!postTitle && !postBody && !selectedCategory) {
+      if (!postTitle || !postBody || !selectedCategory) {
         this.setState({ error: "Complete all inputs" });
         return null;
       }
-      this.props.addPost({
-        id: "qjjqk",
-        title: postTitle,
-        body: postBody,
-        category: selectedCategory,
-        timestamp: new Date(),
-        author: "me"
-      });
+      this.props
+        .addPost({
+          id: uuidv1(),
+          title: postTitle,
+          body: postBody,
+          category: selectedCategory,
+          timestamp: Date.now(),
+          author: "user"
+        })
+        .then(post =>
+          this.setState({
+            success: `Successfully added post ID: ${post.id}`,
+            post: {}
+          })
+        );
     } else if (this.state.currentType === "comment") {
       // if () {
       // }
     }
-
-    // add author - user
-    // add timestampo
-    // add id
   };
+
+  resetErrorsAndSuccesses() {
+    return {
+      error: "",
+      success: null
+    };
+  }
 
   render() {
     if (this.state.currentType === "post") {
@@ -99,9 +112,10 @@ class Create extends Component {
         props: this.props,
         error: this.state.error,
         state: this.state.post,
+        success: this.state.success,
         handleChange: this.handleChange,
         handleCatChange: this.handleCatChange,
-        handleSubmit: this.handleSubmit.bind(this)
+        handleSubmit: this.handleSubmit
       });
     } else {
       return null;

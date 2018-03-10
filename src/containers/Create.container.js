@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addPost: post => {
-      dispatch(createPost(post));
+      return dispatch(createPost(post));
     }
   };
 };
