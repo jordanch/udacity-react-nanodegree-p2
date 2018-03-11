@@ -84,8 +84,8 @@ export default function posts(state = initialPostsState, action) {
         }
       });
 
-    case REMOVE_COMMENT_FROM_POST:
-      const { postId: currentPostId } = action;
+    case REMOVE_COMMENT_FROM_POST: {
+      const { postId: currentPostId, commentId } = action;
       const workingPost = Object.assign({}, state.byId[currentPostId]);
       workingPost.commentIds.splice(
         workingPost.commentIds.indexOf(commentId),
@@ -99,6 +99,7 @@ export default function posts(state = initialPostsState, action) {
           [workingPost.id]: workingPost
         }
       });
+    }
 
     case "UPDATE_POST_BODY": {
       const { body, id } = action;
