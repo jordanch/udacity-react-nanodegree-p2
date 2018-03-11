@@ -3,18 +3,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { withStyles } from "material-ui/styles";
-import classnames from "classnames";
-import Card, {
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions
-} from "material-ui/Card";
+import Card, { CardHeader, CardContent, CardActions } from "material-ui/Card";
 import IconButton from "material-ui/IconButton";
 import Typography from "material-ui/Typography";
-import red from "material-ui/colors/red";
-import FavoriteIcon from "material-ui-icons/Favorite";
-import Comment from "material-ui-icons/Comment";
 import ThumbUp from "material-ui-icons/ThumbUp";
 import ThumbDown from "material-ui-icons/ThumbDown";
 import { voteComment } from "../actions/comments.actions";

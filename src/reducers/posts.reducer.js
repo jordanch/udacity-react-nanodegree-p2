@@ -85,10 +85,10 @@ export default function posts(state = initialPostsState, action) {
       });
 
     case REMOVE_COMMENT_FROM_POST:
-      const { postId: currentPostId, commentId: currentCommentId } = action;
+      const { postId: currentPostId } = action;
       const workingPost = Object.assign({}, state.byId[currentPostId]);
       workingPost.commentIds.splice(
-        workingPost.commentIds.indexOf(commentId) - 1,
+        workingPost.commentIds.indexOf(commentId),
         1
       );
       workingPost.commentCount--;
@@ -113,7 +113,6 @@ export default function posts(state = initialPostsState, action) {
           }
         }
       };
-      break;
     }
 
     case DELETE_POST_SUCCESS:

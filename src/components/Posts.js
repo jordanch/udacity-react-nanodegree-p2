@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import { withStyles } from "material-ui/styles";
 import Post from "./Post";
 import RadioGroup from "../components/RadioButtons.component";

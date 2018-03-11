@@ -1,12 +1,8 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
-import TextField from "material-ui/TextField";
-import { store } from "../api/auth";
-import SelectCategory from "./SelectCategory";
 import CreatePostForm from "./forms/CreatePost.component";
 import CreateCommentForm from "./forms/CreateComment.component";
-import { safe } from "../util/guards";
 const uuidv1 = require("uuid/v1");
 
 const styles = theme => ({
@@ -101,7 +97,6 @@ class Create extends Component {
   };
 
   handleSubmit = () => {
-    const { user } = store.token;
     if (this.state.currentType === "post") {
       const { postTitle, postBody, selectedCategory } = this.state.post;
       if (!postTitle || !postBody || !selectedCategory) {
@@ -148,7 +143,6 @@ class Create extends Component {
   };
 
   handleEditSubmit = () => {
-    const { user } = store.token;
     if (this.state.currentType === "post") {
       const { postTitle, postBody, postId } = this.state.post;
       if (!postTitle || !postBody) {

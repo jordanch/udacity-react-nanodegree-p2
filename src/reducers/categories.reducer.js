@@ -16,17 +16,18 @@ export default function categories(state = initialCategoryState, action) {
         isFetchingCategories: true
       });
 
-    case RECEIVE_CATEGORIES:
+    case RECEIVE_CATEGORIES: {
       const { categories } = action;
 
       return Object.assign({}, state, {
         isFetchingCategories: false,
-        byName: action.categories.reduce((acc, curr) => {
+        byName: categories.reduce((acc, curr) => {
           acc[curr.name] = curr;
           return acc;
         }, {}),
-        allNames: action.categories.map(cat => cat.name)
+        allNames: categories.map(cat => cat.name)
       });
+    }
 
     default:
       return state;

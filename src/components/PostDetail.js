@@ -2,7 +2,6 @@ import React from "react";
 import Post from "../components/Post";
 import Comment from "../components/Comment";
 import PropTypes from "prop-types";
-import { safe } from "../util/guards";
 import { AppButton } from "../components/buttons";
 
 const PostDetail = props => {

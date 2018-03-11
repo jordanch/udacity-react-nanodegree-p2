@@ -9,11 +9,10 @@ const ITEM_HEIGHT = 48;
 class CategoryMenu extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selected: null
+    };
   }
-
-  state = {
-    selected: null
-  };
 
   handleClick = event => {
     this.setState({ selected: event.currentTarget });

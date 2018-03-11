@@ -1,13 +1,10 @@
 import {
-  fetchPostComments,
   REQUEST_POST_COMMENTS,
   RECEIVE_POST_COMMENTS,
   RECEIVE_COMMENT,
   UPDATE_COMMENT_SUCCESSFUL,
   DELETE_COMMENT_SUCCESSFUL
 } from "../actions/comments.actions";
-
-import { REMOVE_COMMENT_FROM_POST } from "../actions/posts.actions";
 
 const initialPostsState = {
   byId: {},

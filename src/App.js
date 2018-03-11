@@ -6,17 +6,12 @@ import {
   Link
 } from "react-router-dom";
 import { connect } from "react-redux";
-import logo from "./logo.svg";
 import "./App.css";
-import Post from "./components/Post";
 import Posts from "./containers/Posts.container";
-import Comment from "./components/Comment";
 import CreateEntity from "./containers/Create.container";
 import PostDetail from "./containers/PostDetail.container";
-import * as api from "./api/api";
 import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
-import Typography from "material-ui/Typography";
 import { withStyles } from "material-ui/styles";
 import PropTypes from "prop-types";
 import { AppButton } from "./components/buttons";
