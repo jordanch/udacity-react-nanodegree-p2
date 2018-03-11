@@ -4,7 +4,9 @@ import {
   RECEIVE_POST_DETAIL,
   ADD_POST_SUCCESSFUL,
   ADD_COMMENT_TO_POST,
-  UPDATE_POST_SUCCESSFUL
+  UPDATE_POST_SUCCESSFUL,
+  REMOVE_COMMENT_FROM_POST,
+  DELETE_POST_SUCCESS
 } from "../actions/posts.actions";
 
 const initialPostsState = {
@@ -82,6 +84,22 @@ export default function posts(state = initialPostsState, action) {
         }
       });
 
+    case REMOVE_COMMENT_FROM_POST:
+      const { postId: currentPostId, commentId: currentCommentId } = action;
+      const workingPost = Object.assign({}, state.byId[currentPostId]);
+      workingPost.commentIds.splice(
+        workingPost.commentIds.indexOf(commentId) - 1,
+        1
+      );
+      workingPost.commentCount--;
+
+      return Object.assign({}, state, {
+        byId: {
+          ...state.byId,
+          [workingPost.id]: workingPost
+        }
+      });
+
     case "UPDATE_POST_BODY": {
       const { body, id } = action;
       const currentPostState = state.byId[id];
@@ -97,6 +115,18 @@ export default function posts(state = initialPostsState, action) {
       };
       break;
     }
+
+    case DELETE_POST_SUCCESS:
+      const { post: deletedPost } = action;
+      const workingPosts = Object.assign({}, state.byId);
+      delete workingPosts[deletedPost.id];
+      const workingIds = [...state.allIds];
+      workingIds.splice(workingIds.indexOf(deletedPost.id) - 1, 1);
+
+      return Object.assign({}, state, {
+        byId: workingPosts,
+        allIds: workingIds
+      });
 
     default:
       return state;

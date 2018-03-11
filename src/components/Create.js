@@ -183,12 +183,24 @@ class Create extends Component {
     }
   };
 
-  resetErrorsAndSuccess() {
+  resetErrorsAndSuccess = () => {
     return {
       error: "",
       success: null
     };
-  }
+  };
+
+  handleCommentDelete = commentId => {
+    this.props.deleteComment(commentId).then(postId => {
+      this.props.history.push(`/post/${postId}`);
+    });
+  };
+
+  handlePostDelete = postId => {
+    this.props.deletePost(postId).then(post => {
+      this.props.history.push(`/`);
+    });
+  };
 
   render() {
     if (this.state.currentType === "post") {
@@ -201,6 +213,7 @@ class Create extends Component {
         handleCatChange: this.handleCatChange,
         handleSubmit: this.handleSubmit,
         handleEdit: this.handleEditSubmit,
+        handlePostDelete: this.handlePostDelete,
         type: this.type
       });
     } else if (this.state.currentType === "comment") {
@@ -212,6 +225,7 @@ class Create extends Component {
         handleChange: this.handleChange,
         handleSubmit: this.handleSubmit,
         handleEditSubmit: this.handleEditSubmit,
+        handleCommentDelete: this.handleCommentDelete,
         type: this.type
       });
     } else {

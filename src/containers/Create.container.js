@@ -1,9 +1,14 @@
 import { connect } from "react-redux";
 import Create from "../components/Create";
-import { createPost, updatePost as putPost } from "../actions/posts.actions";
+import {
+  createPost,
+  updatePost as putPost,
+  deletePost as delPost
+} from "../actions/posts.actions";
 import {
   createComment,
-  updateComment as putComment
+  updateComment as putComment,
+  deleteComment as delComment
 } from "../actions/comments.actions";
 
 const mapStateToProps = (state, ownProps) => {
@@ -25,6 +30,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updateComment: details => {
       return dispatch(putComment(details));
+    },
+    deleteComment: id => {
+      return dispatch(delComment(id));
+    },
+    deletePost: id => {
+      return dispatch(delPost(id));
     }
   };
 };

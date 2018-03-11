@@ -12,8 +12,13 @@ export default function CreateComment({
   handleChange,
   handleSubmit,
   handleEditSubmit,
+  handleCommentDelete,
   type
 }) {
+  function deleteComment() {
+    handleCommentDelete(state.commentId);
+  }
+
   const { classes } = props;
   const { commentBody } = state;
   return (
@@ -38,6 +43,13 @@ export default function CreateComment({
             colour="secondary"
             onClick={type === "edit" ? handleEditSubmit : handleSubmit}
           />
+          {type === "edit" && (
+            <AppButton
+              text={"Delete Comment"}
+              colour="default"
+              onClick={deleteComment}
+            />
+          )}
         </div>
       </div>
     </div>

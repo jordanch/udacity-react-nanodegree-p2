@@ -14,10 +14,15 @@ export default function CreatePost({
   handleCatChange,
   handleSubmit,
   handleEdit,
+  handlePostDelete,
   type
 }) {
   const { classes, categories } = props;
   const { postTitle, postBody, selectedCategory } = state;
+
+  function deletePost() {
+    handlePostDelete(state.postId);
+  }
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -62,6 +67,11 @@ export default function CreatePost({
             text={type === "create" ? "Create Post" : "Update Post"}
             colour="secondary"
             onClick={type === "edit" ? handleEdit : handleSubmit}
+          />
+          <AppButton
+            text={"Delete Post"}
+            colour="default"
+            onClick={deletePost}
           />
         </div>
         <div className={classes.formControl}>{success && success}</div>

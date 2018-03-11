@@ -3,8 +3,11 @@ import {
   REQUEST_POST_COMMENTS,
   RECEIVE_POST_COMMENTS,
   RECEIVE_COMMENT,
-  UPDATE_COMMENT_SUCCESSFUL
+  UPDATE_COMMENT_SUCCESSFUL,
+  DELETE_COMMENT_SUCCESSFUL
 } from "../actions/comments.actions";
+
+import { REMOVE_COMMENT_FROM_POST } from "../actions/posts.actions";
 
 const initialPostsState = {
   byId: {},
@@ -41,6 +44,17 @@ export default function comments(state = initialPostsState, action) {
           [action.comment.id]: action.comment
         },
         allIds
+      });
+
+    case DELETE_COMMENT_SUCCESSFUL:
+      const { comment: deletedComment } = action;
+      const newComments = Object.assign({}, state.byId);
+      delete newComments[deletedComment.id];
+      const newIds = state.allIds.filter(id => id !== deletedComment.id);
+
+      return Object.assign({}, state, {
+        byId: newComments,
+        allIds: newIds
       });
 
     default:

@@ -2,10 +2,14 @@ import {
   fetchPostComments as getPostComments,
   updateVote,
   addComment,
-  updateComment as putComment
+  updateComment as putComment,
+  deleteComment as delComment
 } from "../api/api";
 
-import { addCommentToPost } from "../actions/posts.actions";
+import {
+  addCommentToPost,
+  removeCommentFromPost
+} from "../actions/posts.actions";
 
 export const REQUEST_POST_COMMENTS = "REQUEST_POST_COMMENTS";
 export const requestPostComments = payload => ({
@@ -28,6 +32,12 @@ export const receiveComment = payload => ({
 export const UPDATE_COMMENT_SUCCESSFUL = "UPDATE_COMMENT_SUCCESSFUL";
 export const updateCommentSuccessful = comment => ({
   type: UPDATE_COMMENT_SUCCESSFUL,
+  comment
+});
+
+export const DELETE_COMMENT_SUCCESSFUL = "DELETE_COMMENT_SUCCESSFUL";
+export const deleteCommentSuccessful = comment => ({
+  type: DELETE_COMMENT_SUCCESSFUL,
   comment
 });
 
@@ -79,6 +89,23 @@ export function updateComment(comment) {
       .then(comment => {
         dispatch(updateCommentSuccessful(comment));
         return comment;
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+}
+
+export function deleteComment(id) {
+  return function(dispatch) {
+    return delComment(id)
+      .then(comment => {
+        dispatch(deleteCommentSuccessful(comment));
+        return comment;
+      })
+      .then(comment => {
+        dispatch(removeCommentFromPost(comment));
+        return comment.parentId;
       })
       .catch(error => {
         throw error;

@@ -162,3 +162,41 @@ export function addComment(comment) {
     }
   );
 }
+
+export function deleteComment(id) {
+  return fetch(`${getHost()}/comments/${id}`, {
+    method: "DELETE",
+    headers: new Headers(getBaseHeaders({ "Content-Type": "application/json" }))
+  }).then(
+    response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw Error("Server error - /comment DELETE");
+      }
+    },
+    error => {
+      console.error(error);
+      throw error;
+    }
+  );
+}
+
+export function deletePost(id) {
+  return fetch(`${getHost()}/posts/${id}`, {
+    method: "DELETE",
+    headers: new Headers(getBaseHeaders({ "Content-Type": "application/json" }))
+  }).then(
+    response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw Error("Server error - /posts DELETE");
+      }
+    },
+    error => {
+      console.error(error);
+      throw error;
+    }
+  );
+}

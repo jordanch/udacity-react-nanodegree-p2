@@ -4,7 +4,8 @@ import {
   fetchPost,
   updateVote,
   addPost,
-  updatePost as putPost
+  updatePost as putPost,
+  deletePost as delPost
 } from "../api/api";
 
 export const UPDATE_POST_BODY = "UPDATE_POST_BODY";
@@ -77,6 +78,19 @@ export const addCommentToPost = payload => ({
   postId: payload.postId
 });
 
+export const REMOVE_COMMENT_FROM_POST = "REMOVE_COMMENT_FROM_POST";
+export const removeCommentFromPost = comment => ({
+  type: REMOVE_COMMENT_FROM_POST,
+  commentId: comment.id,
+  postId: comment.parentId
+});
+
+export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
+export const deletePostActionCreator = post => ({
+  type: DELETE_POST_SUCCESS,
+  post
+});
+
 export function votePost(id, action) {
   return async function(dispatch) {
     //TODO: not yet implemented.
@@ -140,6 +154,19 @@ export function updatePost(post) {
     return putPost(post)
       .then(post => {
         dispatch(updatePostSuccessful(post));
+        return post;
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+}
+
+export function deletePost(post) {
+  return function(dispatch) {
+    return delPost(post)
+      .then(post => {
+        dispatch(deletePostActionCreator(post));
         return post;
       })
       .catch(error => {
