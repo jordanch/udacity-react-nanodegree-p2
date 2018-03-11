@@ -58,6 +58,9 @@ const CommentCard = props => {
           </IconButton>
           <Link
             to={{ pathname: "/edit/comment", state: { comment: props.data } }}
+            style={{
+              marginLeft: "10px"
+            }}
           >
             edit
           </Link>

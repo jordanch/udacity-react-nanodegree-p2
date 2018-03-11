@@ -84,7 +84,12 @@ const Post = props => {
               <Comment />
             </Link>
           </IconButton>
-          <Link to={{ pathname: "/edit/post", state: { post: data } }}>
+          <Link
+            to={{ pathname: "/edit/post", state: { post: data } }}
+            style={{
+              marginLeft: "10px"
+            }}
+          >
             edit
           </Link>
         </CardActions>
