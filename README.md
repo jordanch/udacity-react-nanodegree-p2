@@ -4,7 +4,7 @@ This is the frontend client for the Udacity Readable project.
 
 ## Installation
 
-* make sure the backend server is running on port 3001
+* make sure the backend server is running on port 3001 (https://github.com/jordanch/udacity-react-nanodegree-p2-backend)
 * use node 8.9.4
 * run `npm i`
 * run `npm start`
