@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import { withStyles } from "material-ui/styles";
 import Post from "./Post";
+import RadioGroup from "../components/RadioButtons.component";
 
 const styles = theme => ({});
 
 class Posts extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      sortBy: ""
+    };
   }
 
   componentDidMount() {
@@ -18,6 +22,37 @@ class Posts extends Component {
       this.props.fetchPosts();
     }
   }
+
+  sort(posts) {
+    const { sortBy } = this.state;
+    if (sortBy === "highest_votes") {
+      return posts.slice().sort((a, b) => {
+        if (a.voteScore > b.voteScore) {
+          return -1;
+        } else if (a.voteScore < b.voteScore) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else if (sortBy === "most_recent") {
+      return posts.slice().sort((a, b) => {
+        if (a.timestamp > b.timestamp) {
+          return -1;
+        } else if (a.timestamp < b.timestamp) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      return posts;
+    }
+  }
+
+  handleSortChange = sortDescriptor => {
+    this.setState({ sortBy: sortDescriptor });
+  };
 
   render() {
     const { byId, isFetchingPosts } = this.props.posts;
@@ -35,7 +70,10 @@ class Posts extends Component {
       );
       return (
         <div className="All-posts">
-          {matchedPosts.map(post => (
+          <div>
+            <RadioGroup handleSortChange={this.handleSortChange} />
+          </div>
+          {this.sort(matchedPosts).map(post => (
             <Post
               className="All-posts--post"
               type="simple"

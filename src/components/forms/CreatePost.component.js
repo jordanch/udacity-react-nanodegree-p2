@@ -68,11 +68,13 @@ export default function CreatePost({
             colour="secondary"
             onClick={type === "edit" ? handleEdit : handleSubmit}
           />
-          <AppButton
-            text={"Delete Post"}
-            colour="default"
-            onClick={deletePost}
-          />
+          {type === "edit" && (
+            <AppButton
+              text={"Delete Post"}
+              colour="default"
+              onClick={deletePost}
+            />
+          )}
         </div>
         <div className={classes.formControl}>{success && success}</div>
       </div>
