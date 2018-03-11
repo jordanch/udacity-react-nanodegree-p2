@@ -2,7 +2,8 @@ import {
   fetchPostComments,
   REQUEST_POST_COMMENTS,
   RECEIVE_POST_COMMENTS,
-  RECEIVE_COMMENT
+  RECEIVE_COMMENT,
+  UPDATE_COMMENT_SUCCESSFUL
 } from "../actions/comments.actions";
 
 const initialPostsState = {
@@ -28,6 +29,7 @@ export default function comments(state = initialPostsState, action) {
       );
 
     case RECEIVE_COMMENT:
+    case UPDATE_COMMENT_SUCCESSFUL:
       const allIds = [...state.allIds];
       if (!allIds.includes(action.comment.id)) {
         allIds.push(action.comment.id);

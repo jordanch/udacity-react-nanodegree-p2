@@ -1,7 +1,8 @@
 import {
   fetchPostComments as getPostComments,
   updateVote,
-  addComment
+  addComment,
+  updateComment as putComment
 } from "../api/api";
 
 import { addCommentToPost } from "../actions/posts.actions";
@@ -22,6 +23,12 @@ export const RECEIVE_COMMENT = "RECEIVE_COMMENT";
 export const receiveComment = payload => ({
   type: RECEIVE_COMMENT,
   comment: payload
+});
+
+export const UPDATE_COMMENT_SUCCESSFUL = "UPDATE_COMMENT_SUCCESSFUL";
+export const updateCommentSuccessful = comment => ({
+  type: UPDATE_COMMENT_SUCCESSFUL,
+  comment
 });
 
 export function fetchPostComments(id) {
@@ -62,6 +69,19 @@ export function createComment(comment) {
       .catch(e => {
         console.log(e);
         throw e;
+      });
+  };
+}
+
+export function updateComment(comment) {
+  return function(dispatch) {
+    return putComment(comment)
+      .then(comment => {
+        dispatch(updateCommentSuccessful(comment));
+        return comment;
+      })
+      .catch(error => {
+        throw error;
       });
   };
 }

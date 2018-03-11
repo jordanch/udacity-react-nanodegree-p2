@@ -10,7 +10,9 @@ export default function CreateComment({
   state,
   success,
   handleChange,
-  handleSubmit
+  handleSubmit,
+  handleEditSubmit,
+  type
 }) {
   const { classes } = props;
   const { commentBody } = state;
@@ -34,7 +36,7 @@ export default function CreateComment({
           <AppButton
             text="Add Comment"
             colour="secondary"
-            onClick={handleSubmit}
+            onClick={type === "edit" ? handleEditSubmit : handleSubmit}
           />
         </div>
       </div>

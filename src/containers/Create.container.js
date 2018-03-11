@@ -1,7 +1,10 @@
 import { connect } from "react-redux";
 import Create from "../components/Create";
 import { createPost, updatePost as putPost } from "../actions/posts.actions";
-import { createComment } from "../actions/comments.actions";
+import {
+  createComment,
+  updateComment as putComment
+} from "../actions/comments.actions";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -19,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updatePost: details => {
       return dispatch(putPost(details));
+    },
+    updateComment: details => {
+      return dispatch(putComment(details));
     }
   };
 };

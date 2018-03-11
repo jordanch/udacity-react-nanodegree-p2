@@ -65,6 +65,11 @@ const CommentCard = props => {
             <Fav color="error" />
             <span>{voteScore}</span>
           </IconButton>
+          <Link
+            to={{ pathname: "/edit/comment", state: { comment: props.data } }}
+          >
+            edit
+          </Link>
         </CardActions>
       </Card>
     </div>
