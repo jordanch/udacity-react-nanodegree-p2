@@ -61,6 +61,10 @@ const Post = props => {
           title={<Link to={`/post/${id}`}>{title}</Link>}
           subheader={subTitle}
         />
+        <span>
+          {" "}
+          <small>by {author}</small>
+        </span>
         {props.type === "detail" && (
           <CardContent>
             <Typography component="p">{body}</Typography>
