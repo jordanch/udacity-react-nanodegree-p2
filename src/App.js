@@ -85,6 +85,13 @@ class App extends Component {
               path="/edit/:type"
               render={props => <CreateEntity {...props} />}
             />
+            <Route
+              path="/404"
+              render={props => (<div>
+                <h1>404</h1>
+                <h2>Could not post post!</h2>
+              </div>)}
+            />
           </div>
         </Router>
       </div>
