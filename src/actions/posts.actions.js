@@ -127,12 +127,12 @@ export function fetchPostDetail(postId) {
     dispatch(requestPostDetail(postId));
     return fetchPost(postId)
       .then(post => {
+        if (Object.keys(post).length === 0) {
+          throw new Error('404');
+        }
         dispatch(receivePostDetail(post));
         return post;
       })
-      .catch(e => {
-        // TODO: handle catcvh.
-      });
   };
 }
 

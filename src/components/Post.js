@@ -49,7 +49,7 @@ const Post = props => {
     <div className={props.className}>
       <Card className={classes.card}>
         <CardHeader
-          title={<Link to={`/post/${id}`}>{title}</Link>}
+          title={<Link to={`/${category}/${id}`}>{title}</Link>}
           subheader={subTitle}
         />
         <span>
@@ -80,7 +80,7 @@ const Post = props => {
           </IconButton>
           <IconButton aria-label="Number of comments">
             {commentCount}
-            <Link to={`/post/${id}`}>
+            <Link to={`/${category}/${id}`}>
               <Comment />
             </Link>
           </IconButton>

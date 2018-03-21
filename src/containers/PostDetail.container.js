@@ -23,10 +23,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 class PostDetailContainer extends Component {
   async componentDidMount() {
-    const { posts, activePostId, fetchDetails, fetchComments } = this.props;
+    const {
+      posts,
+      activePostId,
+      fetchDetails,
+      fetchComments,
+      history
+    } = this.props;
     const post = posts.byId[activePostId];
     if (!post) {
-      await fetchDetails(activePostId);
+      try {
+        await fetchDetails(activePostId);
+      } catch (e) {
+        history.push("/404");
+      }
       await fetchComments(activePostId);
     } else if (post && post.commentIds && post.commentIds.length === 0) {
       await fetchComments(activePostId);
