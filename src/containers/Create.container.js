@@ -13,7 +13,8 @@ import {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    categories: state.categories
+    categories: state.categories,
+    posts: state.posts
   };
 };
 

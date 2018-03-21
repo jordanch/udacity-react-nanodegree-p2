@@ -137,7 +137,9 @@ class Create extends Component {
           author: "user",
           parentId: this.props.location.state.postId
         })
-        .then(comment => this.props.history.push(`/post/${postId}`))
+        .then(comment => {
+          this.props.history.push(`/${this.getPostCategory(postId)}/${postId}`);
+        })
         .catch(error => this.setState({ error: `API error: ${error}` }));
     }
   };
@@ -155,7 +157,11 @@ class Create extends Component {
           title: postTitle,
           body: postBody
         })
-        .then(post => this.props.history.push(`/post/${post.id}`))
+        .then(post =>
+          this.props.history.push(
+            `/${this.getPostCategory(post.id)}/${post.id}`
+          )
+        )
         .catch(error => {
           console.log(error);
           this.setState({ error: `API error: ${error}` });
@@ -172,7 +178,11 @@ class Create extends Component {
           body: commentBody,
           timestamp: Date.now()
         })
-        .then(comment => this.props.history.push(`/post/${parentId}`))
+        .then(comment =>
+          this.props.history.push(
+            `/${this.getPostCategory(parentId)}/${parentId}`
+          )
+        )
         .catch(error => this.setState({ error: `API error: ${error}` }));
     }
   };
@@ -186,7 +196,7 @@ class Create extends Component {
 
   handleCommentDelete = commentId => {
     this.props.deleteComment(commentId).then(postId => {
-      this.props.history.push(`/post/${postId}`);
+      this.props.history.push(`/${this.getPostCategory(postId)}/${postId}`);
     });
   };
 
@@ -195,6 +205,8 @@ class Create extends Component {
       this.props.history.push(`/`);
     });
   };
+
+  getPostCategory = id => this.props.posts.byId[id].category;
 
   render() {
     if (this.state.currentType === "post") {
@@ -231,6 +243,7 @@ class Create extends Component {
 Create.propTypes = {
   classes: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
   addPost: PropTypes.func.isRequired
 };
 

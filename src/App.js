@@ -47,10 +47,7 @@ class App extends Component {
                   {safe(() => {
                     return Object.values(this.props.categories.byName).map(
                       category => (
-                        <NavLink
-                          key={category.name}
-                          to={`/categories/${category.path}`}
-                        >
+                        <NavLink key={category.name} to={`/${category.path}`}>
                           <AppButton text={category.name} colour="primary" />
                         </NavLink>
                       )
@@ -68,14 +65,11 @@ class App extends Component {
               }}
             />
             <Route
-              path="/categories/:categoryName"
+              exact
+              path="/:categoryName"
               render={props => {
                 return <Posts {...props} />;
               }}
-            />
-            <Route
-              path="/post/:postId"
-              render={props => <PostDetail {...props} />}
             />
             <Route
               path="/create/:type"
@@ -85,12 +79,31 @@ class App extends Component {
               path="/edit/:type"
               render={props => <CreateEntity {...props} />}
             />
+            {safe(() => {
+              return Object.values(this.props.categories.byName).map(
+                category => (
+                  <Route
+                    key={`${category.name}_route`}
+                    exact
+                    path={`/${category.path}/:postId`}
+                    render={props => <PostDetail {...props} />}
+                  />
+                )
+              );
+            }, null)}
+            {/* <Route
+              exact
+              path="/:categoryId/:postId"
+              render={props => <PostDetail {...props} />}
+            /> */}
             <Route
               path="/404"
-              render={props => (<div>
-                <h1>404</h1>
-                <h2>Could not post post!</h2>
-              </div>)}
+              render={props => (
+                <div>
+                  <h1>404</h1>
+                  <h2>Could not post post!</h2>
+                </div>
+              )}
             />
           </div>
         </Router>

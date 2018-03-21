@@ -38,7 +38,7 @@ export default function CreateComment({
         <div>{error && `Error: ${error}`}</div>
         <div className={classes.formControl}>
           <AppButton
-            text="Add Comment"
+            text={type === "edit" ? "Edit Comment" : "Add Comment"}
             colour="secondary"
             onClick={type === "edit" ? handleEditSubmit : handleSubmit}
           />
